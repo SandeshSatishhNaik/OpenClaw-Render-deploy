@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: openclaw
+    runtime: docker
+    plan: starter # Change to 'free' if you want the free tier (note: no persistent disk)
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: "8080"
+      - key: SETUP_PASSWORD
+        sync: false # Render will prompt you to create this during deployment
+      - key: OPENCLAW_STATE_DIR
+        value: /data/.openclaw
+      - key: OPENCLAW_WORKSPACE_DIR
+        value: /data/workspace
+      - key: OPENCLAW_GATEWAY_TOKEN
+        generateValue: true # Auto-generates a secure token for you
+    disk:
+      name: openclaw-data
+      mountPath: /data
+      sizeGB: 1
